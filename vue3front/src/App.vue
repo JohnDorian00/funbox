@@ -11,6 +11,42 @@
       <div class="food-cards__card">
         <FoodCard :labels="labels3" @send-data="catchData" :disabled="true"></FoodCard>
       </div>
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels1" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels2" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels3" @send-data="catchData" :disabled="true"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels1" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels2" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels3" @send-data="catchData" :disabled="true"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels1" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels2" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels3" @send-data="catchData" :disabled="true"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels1" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels2" @send-data="catchData"></FoodCard>-->
+<!--      </div>-->
+<!--      <div class="food-cards__card">-->
+<!--        <FoodCard :labels="labels3" @send-data="catchData" :disabled="true"></FoodCard>-->
+<!--      </div>-->
     </div>
   </main>
 </template>
@@ -83,7 +119,8 @@ main {
 
   flex: 1 1 1px;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 
   // Первый вариант (тянется расстояние между экраном и карточками)
   justify-content: space-evenly;
@@ -93,6 +130,10 @@ main {
   //justify-content: center;
   //column-gap: 80px;
 
+  & > div {
+    align-self: center;
+    justify-self: center;
+  }
 
   row-gap: 50px;
   padding-bottom: 50px;
@@ -103,14 +144,27 @@ main {
   height: 509px;
 }
 
+/* For 4k View */
+@media screen and (min-width: 2048px) {
+
+}
+
 /* For Desktop View */
 @media screen and (min-width: 1024px) {
 }
 
 /* For Tablet View */
 @media screen and (min-device-width: 768px)
-and (max-device-width: 1024px) {
+and (max-device-width: 1023px) {
+  .food-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
 
+    & > div:nth-child(3n+1) {
+      grid-column: 1 / 3;
+    }
+  }
 }
 
 /* For Mobile Portrait View */
@@ -118,6 +172,15 @@ and (max-device-width: 1024px) {
 and (orientation: portrait) {
   .food-cards {
     flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* For Mobile Landscape View */
+@media screen and (max-device-height: 480px)
+and (orientation: landscape) {
+  .food-cards {
+    flex-wrap: wrap;
     align-items: center;
   }
 }

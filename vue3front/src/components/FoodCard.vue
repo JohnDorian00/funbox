@@ -1,6 +1,6 @@
 <template xmlns="http://www.w3.org/1999/html">
   <div class="card-skeleton">
-    <div class="card" @mouseenter="isFocus = true" @mouseleave="mouseLeave" @click="isClick = true">
+    <div class="card-skeleton__card" @mouseenter="isFocus = true" @mouseleave="mouseLeave" @click="mouseHandler" v-touch:tap="touchHandler">
       <div class="card-skeleton__corner-part"
            :class="[isSelect ? 'card-skeleton__corner-part_isSelect' : '',
                     disabled ? 'card-skeleton__corner-part_isDisable' : '']"></div>
@@ -54,13 +54,13 @@ export default {
       isSelect: false,
       isClick: false,
       isFocus: false,
+      isTouchEnabled: ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 ),
       someData: {
         elem1: "useful information"
       }
     }
   },
   mounted() {
-    // this.$emit('test', 'someValue')
   },
   methods: {
     mouseLeave: function () {
@@ -73,6 +73,17 @@ export default {
 
       this.isClick = false;
       this.isFocus= false;
+    },
+    mouseHandler: function (event) {
+      event.preventDefault();
+      this.isClick = true;
+    },
+    touchHandler: function (event) {
+      if (event.type.indexOf("touch") === -1) {
+        return
+      }
+      this.mouseHandler(event);
+      this.mouseLeave();
     },
     checkParams: function () {
 
@@ -107,7 +118,7 @@ $disable-color: #B3B3B3;
   cursor: default;
 }
 
-.card {
+.card-skeleton__card {
   $table: 44px 1fr;
 
   width: 100%;
