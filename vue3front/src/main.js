@@ -8,7 +8,7 @@ import "./assets/main.css";
 const app = createApp(App);
 
 app.use(Vue3TouchEvents, {
-    /* optional options */
-})
+  /* optional options */
+});
 
 app.mount("#app");

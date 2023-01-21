@@ -1,106 +1,178 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <div class="card-skeleton">
-    <div class="card-skeleton__card" @mouseenter="isFocus = true" @mouseleave="mouseLeave" @click="mouseHandler" v-touch:tap="touchHandler">
-      <div class="card-skeleton__corner-part"
-           :class="[isSelect ? 'card-skeleton__corner-part_isSelect' : '',
-                    disabled ? 'card-skeleton__corner-part_isDisable' : '']"></div>
-      <div class="card-skeleton__upper-part" :class="[isSelect ? 'card-skeleton__upper-part_isSelect' : '',
-                                                      disabled ? 'card-skeleton__upper-part_isDisable' : '']">
-        <div class="card-skeleton__upper-title" :class="[isSelect && isFocus ? 'card-skeleton__upper-title_isSelect' : '',
-                                                         disabled ? 'card-skeleton__upper-title_isDisable' : '']">
-          {{ isSelect && isFocus ? "Котэ не одобряет?" : "Сказочное заморское яство" }}
+    <div
+      class="card-skeleton__card"
+      @mouseenter="isFocus = true"
+      @mouseleave="mouseLeave"
+      @click="mouseHandler"
+      v-touch:tap="touchHandler"
+    >
+      <div
+        class="card-skeleton__corner-part"
+        :class="[
+          isSelect ? 'card-skeleton__corner-part_isSelect' : '',
+          disabled ? 'card-skeleton__corner-part_isDisable' : '',
+        ]"
+      ></div>
+      <div
+        class="card-skeleton__upper-part"
+        :class="[
+          isSelect ? 'card-skeleton__upper-part_isSelect' : '',
+          disabled ? 'card-skeleton__upper-part_isDisable' : '',
+        ]"
+      >
+        <div
+          class="card-skeleton__upper-title"
+          :class="[
+            isSelect && isFocus ? 'card-skeleton__upper-title_isSelect' : '',
+            disabled ? 'card-skeleton__upper-title_isDisable' : '',
+          ]"
+        >
+          {{
+            isSelect && isFocus
+              ? "Котэ не одобряет?"
+              : "Сказочное заморское яство"
+          }}
         </div>
       </div>
-      <div class="card-skeleton__body-part"  :class="[isSelect ? 'card-skeleton__body-part_isSelect' : '',
-                                                      disabled ? 'card-skeleton__body-part_isDisable' : '']">
+      <div
+        class="card-skeleton__body-part"
+        :class="[
+          isSelect ? 'card-skeleton__body-part_isSelect' : '',
+          disabled ? 'card-skeleton__body-part_isDisable' : '',
+        ]"
+      >
         <p class="card-skeleton__food-name">Нямушка</p>
         <p class="card-skeleton__taste">{{ labels.taste }}</p>
         <p class="card-skeleton__desc">
-          <span class="card-skeleton__desc_isBold">{{ labels.portions }}</span> {{ declension(["порция", "порции", "порций"], labels.portions) }}</p>
-        <p class="card-skeleton__desc"><span class="card-skeleton__desc_isBold">{{ labels.mouseAmount === 1 ? '' : labels.mouseAmount }}</span> {{ declension(["мышь", "мыши", "мышей"], labels.mouseAmount) + " в подарок"}}</p>
+          <span class="card-skeleton__desc_isBold">{{ labels.portions }}</span>
+          {{ declension(["порция", "порции", "порций"], labels.portions) }}
+        </p>
+        <p class="card-skeleton__desc">
+          <span class="card-skeleton__desc_isBold">{{
+            labels.mouseAmount === 1 ? "" : labels.mouseAmount
+          }}</span>
+          {{
+            declension(["мышь", "мыши", "мышей"], labels.mouseAmount) +
+            " в подарок"
+          }}
+        </p>
         <p class="card-skeleton__desc">{{ labels.additionalTitle }}</p>
 
         <div class="card-skeleton__cat-area">
-          <img class="card-skeleton__cat-img" :src="'./img/' + (disabled ? 'cat-disable' : 'cat') + '.png'" alt="">
+          <img
+            class="card-skeleton__cat-img"
+            :src="'./img/' + (disabled ? 'cat-disable' : 'cat') + '.png'"
+            alt=""
+          />
         </div>
 
-        <div class="card-skeleton__kg-cirlce" :class="[isSelect ? 'card-skeleton__kg-cirlce_isSelect' : '',
-                                                       disabled ? 'card-skeleton__kg-cirlce_isDisable' : '']">
+        <div
+          class="card-skeleton__kg-cirlce"
+          :class="[
+            isSelect ? 'card-skeleton__kg-cirlce_isSelect' : '',
+            disabled ? 'card-skeleton__kg-cirlce_isDisable' : '',
+          ]"
+        >
           <div class="card-skeleton__kg-desc">
-            <p class="card-skeleton__kg">{{ labels.kilo.toString().replaceAll('.', ',') }}</p>
+            <p class="card-skeleton__kg">
+              {{ labels.kilo.toString().replaceAll(".", ",") }}
+            </p>
             <p>кг</p>
           </div>
         </div>
       </div>
     </div>
-    <div class="card-skeleton__bottom-title" :class="disabled ? 'card-skeleton__bottom-title_isDisable' : ''">
-      {{ this.disabled ? "Печалька, " + labels.taste + " закончился." : (this.isSelect ? this.labels.tasteDescripition || "" : "Чего сидишь? Порадуй котэ,&nbsp;") }}
-      <span v-show="!isSelect && !disabled" ><span @click="isClick = true; mouseLeave()" class="card-skeleton__buy-link">купи</span>
-        <span class="card-skeleton__buy-dot">.</span></span>
+    <div
+      class="card-skeleton__bottom-title"
+      :class="disabled ? 'card-skeleton__bottom-title_isDisable' : ''"
+    >
+      {{
+        this.disabled
+          ? "Печалька, " + labels.taste + " закончился."
+          : this.isSelect
+          ? this.labels.tasteDescripition || ""
+          : "Чего сидишь? Порадуй котэ,&nbsp;"
+      }}
+      <span v-show="!isSelect && !disabled"
+        ><span
+          @click="
+            isClick = true;
+            mouseLeave();
+          "
+          class="card-skeleton__buy-link"
+          >купи</span
+        >
+        <span class="card-skeleton__buy-dot">.</span></span
+      >
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "FoodCard",
   props: {
     labels: Object,
-    disabled: Boolean
+    disabled: Boolean,
   },
   data() {
     return {
       isSelect: false,
       isClick: false,
       isFocus: false,
-      isTouchEnabled: ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 ),
+      isTouchEnabled:
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0,
       someData: {
-        elem1: "useful information"
-      }
-    }
-  },
-  mounted() {
+        elem1: "useful information",
+      },
+    };
   },
   methods: {
     mouseLeave: function () {
-      if (this.disabled) return
+      if (this.disabled) return;
 
       if (this.isClick) {
         this.isSelect = !this.isSelect;
-        this.$emit('send-data', this.someData)
+        this.$emit("send-data", this.someData);
       }
 
       this.isClick = false;
-      this.isFocus= false;
+      this.isFocus = false;
     },
     mouseHandler: function (event) {
+      if (event.type.indexOf("click") === -1) {
+        return;
+      }
       event.preventDefault();
       this.isClick = true;
     },
     touchHandler: function (event) {
       if (event.type.indexOf("touch") === -1) {
-        return
+        return;
       }
-      this.mouseHandler(event);
+      event.preventDefault();
+      this.isClick = true;
       this.mouseLeave();
     },
-    checkParams: function () {
-
-    },
+    checkParams: function () {},
     declension: function (forms, val) {
-      const cases = [ 2, 0, 1, 1, 1, 2 ];
-      return forms[(val % 100 > 4 && val % 100 < 20) ? 2 : cases[(val % 10 < 5) ? val % 10 : 5]];
-    }
-  }
+      const cases = [2, 0, 1, 1, 1, 2];
+      return forms[
+        val % 100 > 4 && val % 100 < 20 ? 2 : cases[val % 10 < 5 ? val % 10 : 5]
+      ];
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-$background-color: #F2F2F2;
-$border-color: #1698D9;
-$select-color: #D91667;
-$disable-color: #B3B3B3;
+$background-color: #f2f2f2;
+$border-color: #1698d9;
+$select-color: #d91667;
+$disable-color: #b3b3b3;
 
 .card-skeleton {
   overflow: hidden;
@@ -152,7 +224,7 @@ $disable-color: #B3B3B3;
   &::before {
     position: absolute;
     content: "";
-    width:  87.68px;
+    width: 87.68px;
     height: 87.68px;
     background: none;
     top: -47px;
@@ -220,7 +292,7 @@ $disable-color: #B3B3B3;
 
   padding-left: 44px;
 
-  & > p:not(:first-child){
+  & > p:not(:first-child) {
     margin-left: 3px;
   }
 
@@ -269,11 +341,11 @@ $disable-color: #B3B3B3;
   font-weight: 700;
 }
 
-.card-skeleton__kg-cirlce{
+.card-skeleton__kg-cirlce {
   width: 80px;
   height: 80px;
 
-  background: #1698D9;
+  background: #1698d9;
 
   -moz-border-radius: 50px;
   -webkit-border-radius: 50px;
@@ -300,7 +372,7 @@ $disable-color: #B3B3B3;
   width: 100%;
   height: 100%;
 
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 400;
   font-size: 21px;
   line-height: 22px;
@@ -314,7 +386,6 @@ $disable-color: #B3B3B3;
   padding-top: 20px;
   padding-bottom: 8px;
 }
-
 
 .card-skeleton__kg {
   font-size: 42px;
@@ -349,7 +420,7 @@ $disable-color: #B3B3B3;
 }
 
 .card-skeleton__bottom-title {
-  color: #FFFFFF;
+  color: #ffffff;
   font-weight: 400;
   font-size: 13px;
   line-height: 15.09px;
@@ -363,20 +434,19 @@ $disable-color: #B3B3B3;
 }
 
 .card-skeleton__bottom-title_isDisable {
-  color: #FFFF66;
+  color: #ffff66;
 }
 
 .card-skeleton__buy-link {
-  color: #1698D9;
+  color: #1698d9;
   font-weight: 700;
-  text-decoration: underline #1698D9 dashed;
+  text-decoration: underline #1698d9 dashed;
 
   cursor: pointer;
 }
 
 .card-skeleton__buy-dot {
-  color: #1698D9;
+  color: #1698d9;
   font-weight: 700;
 }
-
 </style>
